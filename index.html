@@ -399,7 +399,7 @@ button:focus-visible, .opt:focus-visible, .check:has(input:focus-visible), .item
       <div class="q"><span class="q-num"></span><h2><label for="funcionarios">Quantos funcionários participam da operação por dia?<span class="req">*</span></label></h2></div>
       <div class="indent">
         <div class="stepper">
-          <input class="big" type="text" id="funcionarios" name="funcionarios" inputmode="numeric" maxlength="2" placeholder="0" aria-describedby="func-hint">
+          <input class="big" type="text" id="funcionarios" name="funcionarios" inputmode="numeric" maxlength="2" value="2" placeholder="2" aria-describedby="func-hint">
           <div class="step-btns">
             <button type="button" class="step" data-step="1" aria-label="Aumentar">▲</button>
             <button type="button" class="step" data-step="-1" aria-label="Diminuir">▼</button>
@@ -692,6 +692,7 @@ function loadDraft() {
   d = d || {};
   for (const [k, v] of Object.entries(d)) {
     const el = form.elements[k];
+    if (k === "funcionarios" && !v) continue; // mantém o padrão (2)
     if (el && typeof v === "string" && !(el instanceof RadioNodeList)) el.value = v;
   }
   $$("[data-choice]").forEach(b => {
