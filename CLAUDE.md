@@ -3,7 +3,7 @@
 Formulários de inscrição publicados no GitHub Pages. Cada formulário é uma página HTML estática que envia as respostas para uma planilha do Google via Apps Script.
 
 - Repositório: `ntnovotraco/forms` (público), branch `main`
-- No ar em: https://ntnovotraco.github.io/forms/ — domínio `forms.novotraco.com` em configuração (ver "Domínio")
+- No ar em: **https://forms.novotraco.com/** (o endereço antigo `ntnovotraco.github.io/forms/` redireciona para ele)
 - Toda a comunicação com a usuária é em português do Brasil, em linguagem simples (ela não é desenvolvedora).
 
 ## Estrutura
@@ -78,7 +78,9 @@ Formulários existentes:
 ## Domínio
 
 - O DNS de `novotraco.com` fica na **Network Solutions** (servidores `dns101/dns102.register.com`).
-- Pendente (aguardando o TI): registro **CNAME** `forms` → `ntnovotraco.github.io`. Depois: em Settings → Pages do repositório, Custom domain `forms.novotraco.com` e marcar **Enforce HTTPS**. Recomendado verificar o domínio em github.com/organizations/ntnovotraco/settings/pages.
-- Quando o domínio funcionar, trocar `ntnovotraco.github.io/forms/` por `forms.novotraco.com/` nas metatags og:url e og:image de cada formulário.
+- `forms.novotraco.com`: **CNAME** `forms` → `ntnovotraco.github.io`, Custom domain configurado (arquivo `CNAME` na raiz do repositório — não apagar), certificado HTTPS ativo. Domínio `novotraco.com` **verificado** na organização (registro TXT `_github-pages-challenge-ntnovotraco`), o que impede outras contas de usar qualquer subdomínio.
+- As metatags og:url, og:image e twitter:image de cada formulário usam `https://forms.novotraco.com/<slug>/`.
+- Histórico do que deu errado: um registro **A curinga `*` → 208.91.197.39** ("under construction page") brigava com o CNAME e fazia o DNS alternar; foi apagado. Se um subdomínio novo não estabilizar, procure curingas e redirecionamentos ("Web Forwarding", "Parked page") no painel da Network Solutions.
+- Já existem registros A do `@` para o GitHub (185.199.108/109/110.153; falta o 185.199.111.153) e CNAME `www` → `ntnovotraco.github.io`, prontos para o site principal. O CNAME `nt` → `cname.short.io` é de um encurtador de links, não mexer.
 - **Nunca mexer nos registros MX** do novotraco.com (são do e-mail da empresa).
 - O site principal `novotraco.com` vai ser outro repositório na mesma organização (ex.: `ntnovotraco/site`), também no GitHub Pages.
