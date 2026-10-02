@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Inscrição · Oficina de Produção de Eventos</title>
+<meta name="description" content="Oficina presencial de Produção de Eventos no Auditório da Praça Maria Aragão, em São Luís. 09 e 10/12, das 14h às 18h. Apenas 20 vagas, por ordem de inscrição. Certificado de 8h/aula de estágio.">
+<meta name="theme-color" content="#003E91">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://ntnovotraco.github.io/forms/oficina-producao-eventos/">
+<meta property="og:title" content="Oficina de Produção de Eventos · Inscrições">
+<meta property="og:description" content="09 e 10/12, das 14h às 18h, no Auditório da Praça Maria Aragão · Apenas 20 vagas · Certificado de 8h/aula de estágio e 2 vagas na equipe de produção do evento.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Oficina de Produção de Eventos · Inscrições">
+<meta name="twitter:description" content="09 e 10/12, das 14h às 18h · Apenas 20 vagas · Certificado de 8h/aula de estágio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: abertura e regras em telas centralizadas; depois todas as perguntas numa coluna única, com bastante respiro entre elas. Tema claro único. */
+:root {
+  --bg: #ffffff;
+  --ink: #1b2230;
+  --muted: #66707e;
+  --line: #cfd6e0;
+  --accent: #003E91;
+  --accent-soft: #e9eff8;
+  --track: #c3cfe3;
+  --field-line: #8e9ab0;
+  --accent-ink: #ffffff;
+  --error: #c4283d;
+  --error-soft: #fcecee;
+  --topbar-h: 4.5rem;
+  --font: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 1rem; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+
+/* Progresso */
+.progress { position: fixed; top: 0; left: 0; right: 0; height: calc(4px + env(safe-area-inset-top, 0px)); padding-top: env(safe-area-inset-top, 0px); background: linear-gradient(var(--track), var(--track)) bottom / 100% 4px no-repeat, var(--bg); z-index: 5; }
+.progress i { display: block; height: 4px; width: 0; background: var(--accent); transition: width .35s ease; }
+
+.stage { min-height: calc(100% - var(--topbar-h)); display: flex; align-items: center; padding: 3rem 1rem 4.5rem; }
+.stage.long { align-items: flex-start; }
+.screen { width: 100%; max-width: 40rem; margin: 0 auto; display: grid; gap: 1.25rem; }
+.screen[hidden] { display: none; }
+.screen.enter { animation: rise .4s ease both; }
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+
+/* Página de perguntas */
+.questions { gap: 0; }
+.page-head { display: grid; gap: .5rem; padding-bottom: 1rem; }
+.page-head h1 { margin: 0; font-size: clamp(1.6rem, 4.6vw, 2.1rem); font-weight: 600; line-height: 1.15; letter-spacing: -.01em; }
+.page-head p { margin: 0; color: var(--muted); }
+.back { justify-self: start; font: inherit; font-size: .9rem; color: var(--muted); background: transparent; border: 0; padding: 0; cursor: pointer; }
+.back:hover { color: var(--accent); }
+.group-title { margin: 0; padding-top: 3rem; color: var(--accent); font-size: .85rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+/* Sem linhas entre perguntas: o espaço separa; as únicas linhas da página são as dos campos */
+.qblock { display: grid; gap: 1rem; padding-block: 1.75rem; }
+
+/* Pergunta */
+.q { display: flex; gap: .6rem; align-items: baseline; }
+.q-num { color: var(--accent); font-weight: 600; font-size: 1rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.q-num::after { content: " →"; }
+.q h2 { margin: 0; font-size: clamp(1.2rem, 3.2vw, 1.45rem); font-weight: 500; line-height: 1.3; text-wrap: balance; }
+.q h2 .req { color: var(--accent); }
+.desc { margin: -.4rem 0 0; color: var(--muted); font-size: 1rem; max-width: 36rem; }
+.indent { padding-left: 2.35rem; display: grid; gap: 1rem; }
+@media (max-width: 30rem) { .indent { padding-left: 0; } }
+
+/* Campo grande */
+.big { width: 100%; font: inherit; font-size: clamp(1.15rem, 3vw, 1.4rem); color: var(--accent); background: transparent; border: 0; border-bottom: 1px solid var(--field-line); padding: .35rem 0 .5rem; border-radius: 0; outline: none; transition: border-color .2s; }
+.big::placeholder { color: color-mix(in srgb, var(--accent) 35%, var(--bg)); }
+.big:focus { border-bottom: 2px solid var(--accent); padding-bottom: calc(.5rem - 1px); }
+.big.bad { border-bottom-color: var(--error); }
+textarea.big { resize: none; min-height: 3.2rem; line-height: 1.4; }
+
+/* Opções */
+.options { display: grid; gap: .55rem; max-width: 30rem; }
+.opt { display: flex; align-items: center; gap: .75rem; width: 100%; text-align: left; font: inherit; font-size: 1.05rem; color: var(--accent); background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: .55rem .75rem; cursor: pointer; transition: background .15s; }
+.opt:hover { background: color-mix(in srgb, var(--accent) 16%, var(--bg)); }
+.opt kbd { flex: none; font: inherit; font-size: .78rem; font-weight: 600; min-width: 1.5rem; height: 1.5rem; display: inline-grid; place-items: center; border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); border-radius: 4px; background: var(--bg); }
+.opt[aria-checked="true"] { border: 2px solid var(--accent); padding: calc(.55rem - 1px) calc(.75rem - 1px); }
+.opt[aria-checked="true"] kbd { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.opt .tick { margin-left: auto; opacity: 0; }
+.opt[aria-checked="true"] .tick { opacity: 1; }
+
+/* Termo */
+.checks { display: grid; gap: .5rem; }
+.check { display: grid; grid-template-columns: auto 1fr; gap: .75rem; align-items: start; padding: .6rem .75rem; border-radius: 6px; background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); cursor: pointer; color: var(--ink); }
+.check input { width: 1.1rem; height: 1.1rem; margin: .2rem 0 0; accent-color: var(--accent); }
+.check:has(input:checked) { border-color: var(--accent); }
+.all { justify-self: start; font: inherit; font-size: .95rem; font-weight: 600; color: var(--accent); background: transparent; border: 0; padding: .2rem 0; cursor: pointer; }
+.all:hover { text-decoration: underline; }
+
+/* Ações */
+.actions { display: flex; align-items: center; gap: .9rem; flex-wrap: wrap; }
+.btn { font: inherit; font-size: 1.1rem; font-weight: 600; color: var(--accent-ink); background: var(--accent); border: 0; border-radius: 6px; padding: .55rem 1.1rem; cursor: pointer; display: inline-flex; align-items: center; gap: .4rem; }
+.btn:hover { filter: brightness(1.1); }
+.btn:disabled { opacity: .6; cursor: progress; }
+.btn.big-btn { font-size: 1.2rem; padding: .7rem 1.5rem; }
+.hint { color: var(--muted); font-size: .85rem; }
+.hint b { font-weight: 600; }
+.error { display: inline-flex; align-items: center; gap: .4rem; justify-self: start; color: var(--error); background: var(--error-soft); border-radius: 4px; padding: .3rem .65rem; font-size: .92rem; }
+.error:empty { display: none; }
+.submit-area { display: grid; gap: 1rem; padding-top: 2.5rem; }
+button:focus-visible, .opt:focus-visible, .check:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Boas-vindas e regras */
+.eyebrow { margin: 0; color: var(--accent); font-weight: 600; font-size: .9rem; letter-spacing: .06em; text-transform: uppercase; }
+.welcome h1 { margin: 0; font-size: clamp(2rem, 6vw, 2.8rem); font-weight: 600; line-height: 1.1; letter-spacing: -.01em; text-wrap: balance; }
+.welcome p.lead { margin: 0; color: var(--muted); font-size: 1.15rem; max-width: 34rem; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem 1.5rem; margin: .25rem 0 .25rem; }
+.facts dt { color: var(--muted); font-size: .85rem; }
+.facts dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+.facts .left { display: block; color: var(--accent); font-weight: 500; font-size: .9rem; }
+.rules-title { margin: 0; font-size: clamp(1.3rem, 3.6vw, 1.65rem); font-weight: 500; line-height: 1.3; }
+.rules { margin: 0; padding: 0; list-style: none; display: grid; gap: .55rem; }
+.rules li { padding-left: 1.1rem; position: relative; color: var(--ink); }
+.rules li::before { content: ""; position: absolute; left: 0; top: .62em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+.rules strong { font-weight: 600; }
+
+/* Destaque: certificado para todos + 2 vagas na equipe de produção */
+.bonus { display: grid; gap: .9rem; padding: 1.1rem 1.2rem 1.2rem; border-radius: 8px; background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); }
+.bonus-title { margin: 0; font-size: 1.15rem; font-weight: 600; line-height: 1.3; color: var(--accent); text-wrap: balance; }
+.bonus p { margin: 0; }
+.hours { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+.hours div { display: grid; gap: .1rem; align-content: start; padding: .75rem .9rem; border-radius: 6px; background: var(--bg); }
+.hours .star { background: var(--accent); color: var(--accent-ink); }
+.hours span { font-size: .85rem; font-weight: 500; }
+.hours strong { font-size: 1.9rem; font-weight: 700; line-height: 1.1; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.hours strong small { font-size: .95rem; font-weight: 600; letter-spacing: 0; }
+.hours em { font-style: normal; font-size: .85rem; }
+.hours div:not(.star) span, .hours div:not(.star) em { color: var(--muted); }
+.hours div:not(.star) strong { color: var(--accent); }
+.status { margin: 0; justify-self: start; padding: .45rem .8rem; border-radius: 6px; background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.status.closed { background: var(--error-soft); color: var(--error); }
+.test-banner { position: fixed; left: 0; right: 0; bottom: 0; padding: .45rem 1rem calc(.45rem + env(safe-area-inset-bottom, 0px)); background: #fff4d6; color: #6b4e00; font-size: .85rem; text-align: center; z-index: 6; }
+
+/* Topo */
+.topbar { display: flex; justify-content: center; align-items: center; height: var(--topbar-h); padding-inline: 1rem; background: var(--accent-soft); border-bottom: 1px solid color-mix(in srgb, var(--accent) 15%, transparent); }
+.wordmark { color: var(--accent); font-weight: 700; font-size: 1.05rem; letter-spacing: .14em; text-transform: uppercase; text-align: center; }
+
+/* Celular: tipografia um pouco menor no geral.
+   Campos ficam com no mínimo 16px para o iPhone não dar zoom ao tocar. */
+@media (max-width: 36rem) {
+  html { font-size: 93.75%; }
+  .welcome h1 { font-size: 1.75rem; }
+  .welcome p.lead { font-size: 1.02rem; }
+  .page-head h1 { font-size: 1.45rem; }
+  .rules-title { font-size: 1.2rem; }
+  .q h2 { font-size: 1.1rem; }
+  .q-num { font-size: .92rem; }
+  .indent { gap: .85rem; }
+  .qblock { padding-block: 1.4rem; }
+  .big { font-size: 1.12rem; }
+  .opt { font-size: 1rem; }
+  .btn.big-btn { font-size: 1.08rem; }
+  .hours strong { font-size: 1.6rem; }
+  .wordmark { font-size: .92rem; letter-spacing: .1em; }
+  input, select, textarea { font-size: max(16px, 1rem); }
+}
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="progress" aria-hidden="true"><i id="bar"></i></div>
+
+<header class="topbar">
+  <span class="wordmark">Oficina de Produção</span>
+</header>
+
+<form id="form" class="stage" novalidate autocomplete="on">
+
+  <!-- Abertura -->
+  <section class="screen welcome" data-id="inicio">
+    <p class="eyebrow">Oficina presencial · São Luís – MA</p>
+    <h1>Oficina de Produção de Eventos</h1>
+    <p class="lead">Dois encontros presenciais para alunos que querem aprender como um evento é produzido, com certificado de horas de estágio.</p>
+    <dl class="facts">
+      <div><dt>Datas</dt><dd>09 e 10/12 (qua e qui)</dd></div>
+      <div><dt>Horário</dt><dd>14h às 18h</dd></div>
+      <div><dt>Local</dt><dd>Auditório da Praça Maria Aragão</dd></div>
+      <div><dt>Vagas</dt><dd>Apenas 20, por ordem de inscrição<span class="left" id="vagasLeft" hidden></span></dd></div>
+    </dl>
+
+    <div class="bonus">
+      <p class="bonus-title">2 participantes vão para a equipe de produção do evento</p>
+      <p>Durante a oficina, vamos observar a turma. Os 2 que mais se destacarem trabalham com a gente na montagem e no evento, como parte da equipe.</p>
+      <div class="hours">
+        <div><span>Todos os participantes</span><strong>8h<small>/aula</small></strong><em>de estágio no certificado</em></div>
+        <div class="star"><span>Os 2 escolhidos</span><strong>32h<small>/aula</small></strong><em>8h da oficina + 24h do evento (3 dias de 8h)</em></div>
+      </div>
+    </div>
+
+    <p class="status" id="status" hidden></p>
+    <div class="actions" id="startActions">
+      <button type="button" class="btn big-btn" data-go="regras">Quero minha vaga</button>
+      <span class="hint">pressione <b>Enter ↵</b> · leva cerca de 3 minutos</span>
+    </div>
+  </section>
+
+  <!-- Regras -->
+  <section class="screen" data-id="regras" hidden>
+    <button type="button" class="back" data-go="inicio">← Voltar ao início</button>
+    <h2 class="rules-title">Como funciona</h2>
+    <ul class="rules">
+      <li>Inscrições de <strong>16/11 a 04/12</strong>, ou até as vagas acabarem.</li>
+      <li>São <strong>apenas 20 vagas</strong>, preenchidas pela ordem de envio do formulário. O formulário fecha sozinho quando a 20ª inscrição chega.</li>
+      <li>A oficina é <strong>presencial</strong>, nos dias <strong>09 e 10/12, das 14h às 18h</strong>, no Auditório da Praça Maria Aragão.</li>
+      <li>Para receber o <strong>certificado de 8h/aula de estágio</strong>, é preciso estar presente nos dois dias.</li>
+      <li>Ao longo da oficina, a organização escolhe <strong>2 participantes</strong> para trabalhar na montagem e no evento, como parte da equipe de produção. Eles ganham <strong>mais 24h/aula</strong> (3 dias de 8h).</li>
+      <li>A confirmação da vaga chega pelo WhatsApp ou e-mail informados na inscrição.</li>
+    </ul>
+    <div class="actions">
+      <button type="button" class="btn" data-go="perguntas">Entendi ✓</button>
+      <span class="hint">pressione <b>Enter ↵</b></span>
+    </div>
+  </section>
+
+  <!-- Todas as perguntas -->
+  <section class="screen questions" data-id="perguntas" hidden>
+    <div class="page-head">
+      <button type="button" class="back" data-go="regras">← Rever como funciona</button>
+      <h1>Dados da inscrição</h1>
+      <p>Campos com <span style="color:var(--accent)">*</span> são obrigatórios. O preenchimento fica salvo neste navegador até você enviar.</p>
+    </div>
+
+    <h3 class="group-title">Seus dados</h3>
+
+    <div class="qblock" data-q="nome">
+      <div class="q"><span class="q-num"></span><h2><label for="nome">Qual é o seu nome completo?<span class="req">*</span></label></h2></div>
+      <p class="desc indent">Escreva como deve aparecer no certificado.</p>
+      <div class="indent">
+        <input class="big" type="text" id="nome" name="nome" placeholder="Digite aqui…" autocomplete="name">
+        <span class="error"></span>
+      </div>
+    </div>
+
+    <div class="qblock" data-q="email">
+      <div class="q"><span class="q-num"></span><h2><label for="email">Seu e-mail<span class="req">*</span></label></h2></div>
+      <div class="indent">
+        <input class="big" type="email" id="email" name="email" placeholder="nome@exemplo.com" autocomplete="email">
+        <span class="error"></span>
+      </div>
+    </div>
+
+    <div class="qblock" data-q="telefone">
+      <div class="q"><span class="q-num"></span><h2><label for="telefone">Seu WhatsApp<span class="req">*</span></label></h2></div>
+      <p class="desc indent">É por aqui que vamos confirmar a sua vaga.</p>
+      <div class="indent">
+        <input class="big" type="tel" id="telefone" name="telefone" inputmode="tel" maxlength="15" placeholder="(98) 90000-0000" autocomplete="tel">
+        <span class="error"></span>
+      </div>
+    </div>
+
+    <div class="qblock" data-q="curso">
+      <div class="q"><span class="q-num"></span><h2><label for="curso">Qual é o seu curso?<span class="req">*</span></label></h2></div>
+      <div class="indent">
+        <input class="big" type="text" id="curso" name="curso" placeholder="Ex.: Publicidade e Propaganda">
+        <span class="error"></span>
+      </div>
+    </div>
+
+    <div class="qblock" data-q="periodo">
+      <div class="q"><span class="q-num"></span><h2><label for="periodo">Em que período você está?<span class="req">*</span></label></h2></div>
+      <div class="indent">
+        <input class="big" type="text" id="periodo" name="periodo" placeholder="Ex.: 5º período">
+        <span class="error"></span>
+      </div>
+    </div>
+
+    <div class="qblock" data-q="matricula">
+      <div class="q"><span class="q-num"></span><h2><label for="matricula">Número de matrícula<span class="req">*</span></label></h2></div>
+      <div class="indent">
+        <input class="big" type="text" id="matricula" name="matricula" placeholder="Digite aqui…">
+        <span class="error"></span>
+      </div>
+    </div>
+
+    <h3 class="group-title">Você e os eventos</h3>
+
+    <div class="qblock" data-q="experiencia" data-choice>
+      <div class="q"><span class="q-num"></span><h2>Você já trabalhou na produção de algum evento?<span class="req">*</span></h2></div>
+      <div class="indent">
+        <div class="options" role="radiogroup" aria-label="Experiência com produção de eventos">
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="Sim, já trabalhei na produção"><kbd>A</kbd>Sim, já trabalhei na produção<span class="tick">✓</span></button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="Já ajudei como voluntário(a)"><kbd>B</kbd>Já ajudei como voluntário(a)<span class="tick">✓</span></button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="Ainda não, seria a primeira vez"><kbd>C</kbd>Ainda não, seria a primeira vez<span class="tick">✓</span></button>
+        </div>
+        <input type="hidden" name="experiencia" id="experiencia">
+        <span class="error"></span>
+      </div>
+    </div>
+
+    <div class="qblock" data-q="experienciaDetalhe">
+      <div class="q"><span class="q-num"></span><h2><label for="experienciaDetalhe">Se já participou, conte qual foi o evento e o que você fez</label></h2></div>
+      <p class="desc indent">Opcional.</p>
+      <div class="indent">
+        <textarea class="big grow" id="experienciaDetalhe" name="experienciaDetalhe" rows="1" placeholder="Digite aqui…"></textarea>
+      </div>
+    </div>
+
+    <div class="qblock" data-q="disponivelEquipe" data-choice>
+      <div class="q"><span class="q-num"></span><h2>Se for escolhido(a) para a equipe de produção, você tem disponibilidade para 3 dias de 8h na montagem e no evento?<span class="req">*</span></h2></div>
+      <div class="indent">
+        <div class="options" role="radiogroup" aria-label="Disponibilidade para a equipe de produção">
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="Sim"><kbd>A</kbd>Sim, quero muito!<span class="tick">✓</span></button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="Talvez"><kbd>B</kbd>Talvez, depende das datas<span class="tick">✓</span></button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="Não"><kbd>C</kbd>Não tenho disponibilidade<span class="tick">✓</span></button>
+        </div>
+        <input type="hidden" name="disponivelEquipe" id="disponivelEquipe">
+        <span class="error"></span>
+      </div>
+    </div>
+
+    <div class="qblock" data-q="motivo">
+      <div class="q"><span class="q-num"></span><h2><label for="motivo">Por que você quer participar da oficina?<span class="req">*</span></label></h2></div>
+      <div class="indent">
+        <textarea class="big grow" id="motivo" name="motivo" rows="1" placeholder="Digite aqui…"></textarea>
+        <span class="error"></span>
+      </div>
+    </div>
+
+    <h3 class="group-title">Confirmação</h3>
+
+    <div class="qblock" data-q="termo">
+      <div class="q"><span class="q-num"></span><h2>Confirme que está de acordo<span class="req">*</span></h2></div>
+      <div class="indent">
+        <button type="button" class="all" id="checkAll">Marcar todos</button>
+        <div class="checks">
+          <label class="check"><input type="checkbox" name="aceite" id="ac-presenca" value="presenca"><span>Vou estar presente nos dois dias, 09 e 10/12, das 14h às 18h.</span></label>
+          <label class="check"><input type="checkbox" name="aceite" id="ac-certificado" value="certificado"><span>Sei que o certificado só é emitido para quem participar dos dois dias.</span></label>
+          <label class="check"><input type="checkbox" name="aceite" id="ac-ordem" value="ordem"><span>Sei que as 20 vagas seguem a ordem de inscrição e que a confirmação chega por WhatsApp ou e-mail.</span></label>
+          <label class="check"><input type="checkbox" name="aceite" id="ac-dados" value="dados"><span>Autorizo o uso dos meus dados para a organização da oficina e a emissão do certificado.</span></label>
+        </div>
+        <span class="error"></span>
+      </div>
+    </div>
+
+    <div class="submit-area">
+      <span class="error" id="submitError"></span>
+      <div class="actions"><button type="submit" class="btn big-btn" id="submitBtn">Enviar inscrição</button></div>
+    </div>
+  </section>
+
+  <!-- Confirmação -->
+  <section class="screen welcome" data-id="fim" hidden>
+    <p class="eyebrow" id="doneEyebrow">Inscrição recebida</p>
+    <h1 id="doneTitle">Obrigado!</h1>
+    <p class="lead" id="doneText">Sua vaga está garantida. Vamos confirmar pelo WhatsApp e pelo e-mail que você informou. Te esperamos dia 09/12, às 14h, no Auditório da Praça Maria Aragão. Chegue 15 minutos antes!</p>
+    <p class="hint" id="protocolo"></p>
+  </section>
+
+</form>
+
+<script>
+// URL do app da web do Google Apps Script (termina em /exec). Enquanto estiver vazio, o envio só é simulado em modo de teste.
+const ENDPOINT = "";
+const DRAFT_KEY = "oficina-producao-eventos-v1";
+const VAGAS = 20;
+// Horário de São Luís (UTC−3). Precisam bater com o apps-script.gs.
+const ABERTURA = new Date("2026-11-16T00:00:00-03:00");
+const ENCERRAMENTO = new Date("2026-12-04T23:59:59-03:00");
+// Abra a página com ?teste no fim do endereço para testar fora do prazo. Esses envios vão para a aba "Testes".
+const TESTE = new URLSearchParams(location.search).has("teste");
+
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const form = $("#form");
+const screens = $$(".screen");
+const blocks = $$(".qblock");
+let screenId = "inicio";
+
+// Numeração das perguntas
+blocks.forEach((b, i) => { $(".q-num", b).textContent = i + 1; });
+
+/* ---------- Situação das inscrições ---------- */
+let inscritos = null;
+function situacao() {
+  if (TESTE) return "aberto";
+  const agora = new Date();
+  if (agora < ABERTURA) return "antes";
+  if (agora > ENCERRAMENTO) return "encerrado";
+  if (inscritos !== null && inscritos >= VAGAS) return "esgotado";
+  return "aberto";
+}
+function renderSituacao() {
+  const s = situacao(), st = $("#status");
+  const msgs = {
+    antes: "As inscrições abrem em 16/11. Volte aqui nesse dia!",
+    encerrado: "As inscrições foram encerradas em 04/12.",
+    esgotado: "As 20 vagas já foram preenchidas. Obrigado pelo interesse!"
+  };
+  st.hidden = s === "aberto";
+  st.textContent = msgs[s] || "";
+  st.classList.toggle("closed", s === "encerrado" || s === "esgotado");
+  $("#startActions").hidden = s !== "aberto";
+  const left = $("#vagasLeft");
+  if (inscritos !== null && s === "aberto" && !TESTE) {
+    const r = Math.max(0, VAGAS - inscritos);
+    left.textContent = r === 1 ? "Resta 1 vaga!" : `Restam ${r} vagas`;
+    left.hidden = false;
+  } else left.hidden = true;
+  // Se as vagas acabaram enquanto a pessoa preenchia, volta para a abertura com o aviso
+  if (s !== "aberto" && screenId !== "inicio" && screenId !== "fim") show("inicio");
+}
+async function carregarVagas() {
+  if (!ENDPOINT) return;
+  try {
+    const r = await fetch(ENDPOINT);
+    const res = await r.json();
+    if (res && typeof res.inscritos === "number") { inscritos = res.inscritos; renderSituacao(); }
+  } catch (e) { /* sem contador, a página segue funcionando */ }
+}
+
+/* ---------- Formatação ---------- */
+function maskPhone(v) {
+  v = v.replace(/\D/g, "").slice(0, 11);
+  return v.length <= 10
+    ? v.replace(/^(\d{2})(\d)/, "($1) $2").replace(/(\d{4})(\d)/, "$1-$2")
+    : v.replace(/^(\d{2})(\d)/, "($1) $2").replace(/(\d{5})(\d)/, "$1-$2");
+}
+$("#telefone").addEventListener("input", e => e.target.value = maskPhone(e.target.value));
+
+/* ---------- Escolhas (A/B/C) ---------- */
+function choose(block, btn) {
+  $$(".opt", block).forEach(o => o.setAttribute("aria-checked", String(o === btn)));
+  $('input[type="hidden"]', block).value = btn.dataset.value;
+  $(".error", block).textContent = "";
+  saveDraft(); updateProgress();
+}
+$$("[data-choice]").forEach(b => $$(".opt", b).forEach(o => o.addEventListener("click", () => choose(b, o))));
+
+$("#checkAll").addEventListener("click", () => {
+  const boxes = $$('[name="aceite"]'), all = boxes.every(c => c.checked);
+  boxes.forEach(c => c.checked = !all);
+  $("#checkAll").textContent = all ? "Marcar todos" : "Desmarcar todos";
+  $('[data-q="termo"] .error').textContent = "";
+  saveDraft(); updateProgress();
+});
+
+/* ---------- Validação ---------- */
+const filled = el => el.value.trim().length > 0;
+const checks = {
+  nome: () => $("#nome").value.trim().split(/\s+/).length >= 2 || "Informe o nome completo (nome e sobrenome).",
+  email: () => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($("#email").value.trim()) || "Informe um e-mail válido.",
+  telefone: () => $("#telefone").value.replace(/\D/g, "").length >= 10 || "Informe o WhatsApp com DDD.",
+  curso: () => filled($("#curso")) || "Informe o seu curso.",
+  periodo: () => filled($("#periodo")) || "Informe o período.",
+  matricula: () => filled($("#matricula")) || "Informe o número de matrícula.",
+  experiencia: () => filled($("#experiencia")) || "Escolha uma opção.",
+  disponivelEquipe: () => filled($("#disponivelEquipe")) || "Escolha uma opção.",
+  motivo: () => filled($("#motivo")) || "Conte em poucas palavras por que quer participar.",
+  termo: () => $$('[name="aceite"]').every(c => c.checked) || "Marque todos os itens para enviar."
+};
+function validateBlock(b, show = true) {
+  const fn = checks[b.dataset.q]; if (!fn) return true;
+  const r = fn(), err = $(".error", b);
+  if (show && err) err.textContent = r === true ? "" : "⚠ " + r;
+  if (show) $$(".big", b).forEach(i => i.classList.toggle("bad", r !== true));
+  return r === true;
+}
+
+/* ---------- Progresso ---------- */
+const required = blocks.filter(b => checks[b.dataset.q]);
+function updateProgress() {
+  if (screenId === "fim") { $("#bar").style.width = "100%"; return; }
+  if (screenId !== "perguntas") { $("#bar").style.width = screenId === "regras" ? "4%" : "0"; return; }
+  const done = required.filter(b => checks[b.dataset.q]() === true).length;
+  $("#bar").style.width = (4 + (done / required.length) * 96) + "%";
+}
+
+/* ---------- Telas ---------- */
+function show(id) {
+  if ((id === "regras" || id === "perguntas") && situacao() !== "aberto") id = "inicio";
+  screenId = id;
+  screens.forEach(s => { s.hidden = s.dataset.id !== id; s.classList.remove("enter"); });
+  const s = $(`[data-id="${id}"]`);
+  void s.offsetWidth; s.classList.add("enter");
+  form.classList.toggle("long", id === "perguntas" || id === "regras");
+  window.scrollTo({ top: 0, behavior: "instant" });
+  if (matchMedia("(hover: hover)").matches) {
+    const f = id === "perguntas" ? $("#nome") : $(".actions:not([hidden]) .btn", s);
+    if (f) setTimeout(() => f.focus({ preventScroll: true }), 60);
+  }
+  updateProgress(); saveDraft();
+}
+$$("[data-go]").forEach(b => b.addEventListener("click", () => show(b.dataset.go)));
+
+// Enter: nas telas de abertura/regras avança; na página de perguntas pula para o próximo campo
+const fieldOrder = () => $$('[data-id="perguntas"] input:not([type="hidden"]):not([type="checkbox"]), [data-id="perguntas"] textarea');
+document.addEventListener("keydown", e => {
+  if (e.key !== "Enter") return;
+  const t = e.target;
+  if (screenId === "inicio" || screenId === "regras") {
+    if (t.tagName === "BUTTON" && !t.closest(".actions")) return;
+    const go = $(`[data-id="${screenId}"] .actions:not([hidden]) [data-go]`);
+    if (go) { e.preventDefault(); go.click(); }
+    return;
+  }
+  if (screenId !== "perguntas") return;
+  if (t.tagName === "TEXTAREA") { if (e.shiftKey) return; }
+  else if (t.tagName === "BUTTON" || t.type === "checkbox") return;
+  if (!["INPUT", "TEXTAREA"].includes(t.tagName)) return;
+  e.preventDefault();
+  const list = fieldOrder(), nextEl = list[list.indexOf(t) + 1];
+  if (nextEl) { nextEl.focus(); nextEl.scrollIntoView({ block: "center", behavior: "smooth" }); }
+});
+// Atalhos A/B/C quando o foco está numa opção
+document.addEventListener("keydown", e => {
+  const b = e.target.closest && e.target.closest("[data-choice]");
+  if (!b || e.metaKey || e.ctrlKey || e.altKey || e.key.length !== 1) return;
+  const opts = $$(".opt", b), idx = "abcdefgh".indexOf(e.key.toLowerCase());
+  if (idx >= 0 && idx < opts.length) { e.preventDefault(); opts[idx].focus(); choose(b, opts[idx]); }
+});
+
+// Caixas de texto crescem com o texto
+const grow = el => { el.style.height = "auto"; el.style.height = el.scrollHeight + "px"; };
+$$("textarea.grow").forEach(t => t.addEventListener("input", () => grow(t)));
+// Ao digitar, limpa o erro daquela pergunta
+form.addEventListener("input", e => {
+  const b = e.target.closest(".qblock");
+  if (b) { const er = $(".error", b); if (er) er.textContent = ""; e.target.classList.remove("bad"); }
+  updateProgress();
+});
+form.addEventListener("change", updateProgress);
+// Valida ao sair de um campo já preenchido
+form.addEventListener("focusout", e => {
+  const b = e.target.closest && e.target.closest(".qblock");
+  if (b && !b.contains(e.relatedTarget) && e.target.value && e.target.value.trim()) validateBlock(b);
+});
+
+/* ---------- Rascunho ---------- */
+function collect() {
+  const f = new FormData(form), d = {};
+  for (const [k, v] of f.entries()) if (k !== "aceite") d[k] = String(v).trim();
+  d.aceites = f.getAll("aceite");
+  return d;
+}
+let saveTimer;
+function saveDraft() {
+  if (screenId === "fim") return;
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => { try { localStorage.setItem(DRAFT_KEY, JSON.stringify({ ...collect(), _tela: screenId })); } catch (e) {} }, 250);
+}
+function loadDraft() {
+  let d = null;
+  try { d = JSON.parse(localStorage.getItem(DRAFT_KEY) || "null"); } catch (e) {}
+  d = d || {};
+  for (const [k, v] of Object.entries(d)) {
+    const el = form.elements[k];
+    if (el && typeof v === "string" && !(el instanceof RadioNodeList)) el.value = v;
+  }
+  $$("[data-choice]").forEach(b => {
+    const v = $('input[type="hidden"]', b).value;
+    $$(".opt", b).forEach(o => o.setAttribute("aria-checked", String(!!v && o.dataset.value === v)));
+  });
+  $$('[name="aceite"]').forEach(c => c.checked = (d.aceites || []).includes(c.value));
+  renderSituacao();
+  show(["regras", "perguntas"].includes(d._tela) ? d._tela : "inicio");
+  requestAnimationFrame(() => $$("textarea.grow").forEach(t => { if (t.value) grow(t); }));
+}
+form.addEventListener("input", saveDraft);
+form.addEventListener("change", saveDraft);
+
+/* ---------- Envio ---------- */
+function concluir(dados, res) {
+  try { localStorage.removeItem(DRAFT_KEY); } catch (x) {}
+  const primeiro = dados.nome.split(/\s+/)[0];
+  $("#doneTitle").textContent = `Obrigado, ${primeiro}!`;
+  if (res.jaInscrito) {
+    $("#doneEyebrow").textContent = "Você já estava inscrito(a)";
+    $("#doneText").textContent = "Encontramos uma inscrição com o seu e-mail ou matrícula, então a sua vaga continua garantida. Não é preciso enviar de novo.";
+  }
+  $("#protocolo").textContent = res.protocolo ? `Protocolo da inscrição: ${res.protocolo}` : "";
+  show("fim");
+}
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (screenId !== "perguntas") return;
+  let first = null;
+  blocks.forEach(b => { if (!validateBlock(b) && !first) first = b; });
+  const err = $("#submitError");
+  if (first) {
+    err.textContent = "⚠ Há perguntas para corrigir. Elas estão marcadas em vermelho.";
+    first.scrollIntoView({ block: "start", behavior: "smooth" });
+    const f = $(".bad, .big, .opt, input", first);
+    if (f) setTimeout(() => f.focus({ preventScroll: true }), 350);
+    return;
+  }
+  if (!ENDPOINT && !TESTE) {
+    err.textContent = "⚠ O formulário ainda não está recebendo inscrições. Tente novamente mais tarde.";
+    return;
+  }
+  err.textContent = "";
+  const btn = $("#submitBtn");
+  btn.disabled = true; btn.textContent = "Enviando…";
+  const dados = { ...collect(), teste: TESTE };
+  try {
+    let res = { ok: true, protocolo: "" };
+    if (ENDPOINT) {
+      // text/plain evita a checagem de CORS que o Apps Script não responde
+      const r = await fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(dados) });
+      res = await r.json().catch(() => ({}));
+      if (res.motivo === "esgotado") { inscritos = VAGAS; renderSituacao(); return; }
+      if (res.motivo === "fora_do_prazo") { renderSituacao(); err.textContent = "⚠ As inscrições não estão abertas agora (período: 16/11 a 04/12)."; return; }
+      if (!r.ok || !res.ok) throw new Error(res.erro || "HTTP " + r.status);
+    } else {
+      console.info("Envio simulado (ENDPOINT vazio):", dados);
+    }
+    concluir(dados, res);
+  } catch (x) {
+    err.textContent = "⚠ Não foi possível enviar agora. Verifique a conexão e tente de novo. Suas respostas continuam salvas.";
+  } finally {
+    btn.disabled = false; btn.textContent = "Enviar inscrição";
+  }
+});
+
+if (TESTE) {
+  const t = document.createElement("div");
+  t.className = "test-banner";
+  t.textContent = "Modo de teste: as inscrições enviadas aqui vão para a aba Testes e não ocupam vaga.";
+  document.body.append(t);
+}
+loadDraft();
+carregarVagas();
+// Atualiza o contador de vagas a cada minuto enquanto a página está aberta
+setInterval(() => { if (!document.hidden && screenId !== "fim") carregarVagas(); }, 60000);
+</script>
+</body>
+</html>
