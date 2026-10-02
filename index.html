@@ -142,6 +142,16 @@ textarea.big { resize: none; min-height: 3.2rem; line-height: 1.4; }
   .item input, .item select { border-bottom-color: var(--field-line); padding-inline: 0; }
 }
 
+/* Seletor de funcionários */
+.stepper { display: flex; align-items: center; gap: .6rem; }
+.stepper .big { width: 4.5rem; text-align: center; font-variant-numeric: tabular-nums; }
+.step-btns { display: grid; gap: 2px; }
+.step { width: 2.4rem; height: 1.6rem; display: grid; place-items: center; border: 0; background: var(--accent-soft); color: var(--accent); font-size: .7rem; cursor: pointer; }
+.step:first-child { border-radius: 6px 6px 0 0; }
+.step:last-child { border-radius: 0 0 6px 6px; }
+.step:hover { background: color-mix(in srgb, var(--accent) 16%, var(--bg)); }
+.step:active { background: var(--accent); color: var(--accent-ink); }
+
 /* Termo */
 .checks { display: grid; gap: .5rem; }
 .check { display: grid; grid-template-columns: auto 1fr; gap: .75rem; align-items: start; padding: .6rem .75rem; border-radius: 6px; background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); cursor: pointer; color: var(--ink); }
@@ -388,7 +398,14 @@ button:focus-visible, .opt:focus-visible, .check:has(input:focus-visible), .item
     <div class="qblock" data-q="funcionarios">
       <div class="q"><span class="q-num"></span><h2><label for="funcionarios">Quantos funcionários participam da operação por dia?<span class="req">*</span></label></h2></div>
       <div class="indent">
-        <input class="big" type="text" id="funcionarios" name="funcionarios" inputmode="numeric" maxlength="3" placeholder="0" style="max-width:8rem">
+        <div class="stepper">
+          <input class="big" type="text" id="funcionarios" name="funcionarios" inputmode="numeric" maxlength="2" placeholder="0" aria-describedby="func-hint">
+          <div class="step-btns">
+            <button type="button" class="step" data-step="1" aria-label="Aumentar">▲</button>
+            <button type="button" class="step" data-step="-1" aria-label="Diminuir">▼</button>
+          </div>
+          <span class="hint" id="func-hint">de 1 a 10</span>
+        </div>
         <span class="error"></span>
       </div>
     </div>
@@ -471,7 +488,20 @@ const dec = v => { const n = parseFloat(String(v).replace(/\s/g, "").replace(","
 const money = v => { const s = String(v).replace(/[^\d,.]/g, ""); return dec(s.includes(",") ? s.replace(/\./g, "") : s); };
 $("#cnpj").addEventListener("input", e => e.target.value = maskCNPJ(e.target.value));
 $("#telefone").addEventListener("input", e => e.target.value = maskPhone(e.target.value));
-$("#funcionarios").addEventListener("input", e => e.target.value = e.target.value.replace(/\D/g, ""));
+// Funcionários: número de 1 a 10, com setas
+const func = $("#funcionarios");
+function setFunc(n) {
+  func.value = String(Math.min(10, Math.max(1, n)));
+  func.dispatchEvent(new Event("input", { bubbles: true }));
+}
+func.addEventListener("input", () => {
+  const v = func.value.replace(/\D/g, "");
+  func.value = v === "" ? "" : String(Math.min(10, Math.max(0, parseInt(v, 10))));
+});
+func.addEventListener("keydown", e => {
+  if (e.key === "ArrowUp" || e.key === "ArrowDown") { e.preventDefault(); setFunc((parseInt(func.value) || 0) + (e.key === "ArrowUp" ? 1 : -1)); }
+});
+$$(".step").forEach(b => b.addEventListener("click", () => setFunc((parseInt(func.value) || 0) + Number(b.dataset.step))));
 
 /* ---------- Listas ---------- */
 function addMenu(d = {}) {
@@ -562,7 +592,7 @@ const checks = {
     ["voltagem", v => v, "Escolha a voltagem de cada equipamento."],
     ["amperagem", v => v, "Escolha a amperagem de cada equipamento."]
   ], mark) ?? "Liste pelo menos um equipamento.",
-  funcionarios: () => parseInt($("#funcionarios").value) >= 1 || "Informe quantas pessoas trabalham por dia.",
+  funcionarios: () => { const n = parseInt($("#funcionarios").value); return (n >= 1 && n <= 10) || "Informe um número de 1 a 10."; },
   termo: () => $$('[name="aceite"]').every(c => c.checked) || "Marque todos os itens para enviar."
 };
 function validateBlock(b, show = true) {
