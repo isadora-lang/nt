@@ -113,19 +113,32 @@ textarea.big { resize: none; min-height: 3.2rem; line-height: 1.4; }
 .item .bad { border-bottom-color: var(--error); }
 .list-head { display: grid; gap: .5rem; color: var(--muted); font-size: .8rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
 .list-head span { padding-inline: .1rem; }
-.del { width: 2rem; height: 2rem; border: 0; background: transparent; color: var(--muted); font-size: 1.2rem; border-radius: 50%; cursor: pointer; }
+.del { width: 2rem; height: 2rem; border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 1.2rem; border-radius: 50%; cursor: pointer; }
 .del:hover { background: var(--error-soft); color: var(--error); }
+/* No computador: cada linha é uma linha de tabela; rótulos e título ficam ocultos (os títulos das colunas estão no cabeçalho) */
+.row-head { display: contents; }
+.row-title, .cell-label, .del-text { display: none; }
+.item .del { order: 99; }
+.cell { display: block; min-width: 0; }
 .add { justify-self: start; font: inherit; font-weight: 600; color: var(--accent); background: transparent; border: 0; padding: .4rem 0; cursor: pointer; }
 .add:hover { text-decoration: underline; }
 .total { color: var(--muted); font-variant-numeric: tabular-nums; }
 .total strong { color: var(--ink); font-weight: 600; }
+/* No celular: cada linha vira um cartão numerado, com rótulo em cada campo */
 @media (max-width: 36rem) {
   .list-head { display: none; }
-  .menu-item { grid-template-columns: 1fr 1fr 2rem; }
-  .menu-item > :first-child { grid-column: 1 / -1; }
-  .eq-item { grid-template-columns: 1fr 1fr 1fr; }
-  .eq-item > :first-child { grid-column: 1 / -1; }
-  .item input, .item select { border-bottom-color: var(--line); }
+  .list#menuList, .list#eqList { counter-reset: linha; gap: .75rem; }
+  .item, .menu-item, .eq-item { counter-increment: linha; grid-template-columns: 1fr 1fr; gap: .75rem 1rem; padding: .85rem .9rem 1rem; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); }
+  .row-head { display: flex; grid-column: 1 / -1; justify-content: space-between; align-items: center; margin-bottom: -.25rem; }
+  .row-title { display: block; font-weight: 600; color: var(--accent); font-size: .95rem; }
+  .row-title::after { content: " " counter(linha); }
+  .item .del { order: 0; width: auto; height: auto; padding: .3rem .5rem; margin-right: -.5rem; border-radius: 4px; font-size: .88rem; }
+  .del-x { display: none; }
+  .del-text { display: inline; }
+  .cell { display: grid; gap: .15rem; }
+  .c-main { grid-column: 1 / -1; }
+  .cell-label { display: block; color: var(--muted); font-size: .8rem; font-weight: 600; }
+  .item input, .item select { border-bottom-color: var(--line); padding-inline: 0; }
 }
 
 /* Termo */
@@ -464,22 +477,22 @@ function addMenu(d = {}) {
   const id = ++uid, row = document.createElement("div");
   row.className = "item menu-item";
   row.innerHTML = `
-    <input type="text" id="mi-${id}" data-k="item" placeholder="Ex.: pastel de carne do sol" aria-label="Item">
-    <select id="mt-${id}" data-k="tipo" aria-label="Tipo"><option>Comida</option><option>Bebida</option></select>
-    <input type="text" id="mv-${id}" data-k="valor" inputmode="decimal" placeholder="0,00" aria-label="Valor em reais">
-    <button type="button" class="del" aria-label="Remover item">×</button>`;
+    <div class="row-head"><span class="row-title">Item</span><button type="button" class="del" aria-label="Remover item"><span class="del-x">×</span><span class="del-text">Remover</span></button></div>
+    <label class="cell c-main" for="mi-${id}"><span class="cell-label">Nome do item</span><input type="text" id="mi-${id}" data-k="item" placeholder="Ex.: pastel de carne do sol"></label>
+    <label class="cell" for="mt-${id}"><span class="cell-label">Tipo</span><select id="mt-${id}" data-k="tipo"><option>Comida</option><option>Bebida</option></select></label>
+    <label class="cell" for="mv-${id}"><span class="cell-label">Valor (R$)</span><input type="text" id="mv-${id}" data-k="valor" inputmode="decimal" placeholder="0,00"></label>`;
   fillRow(row, d); $("#menuList").append(row); return row;
 }
 function addEq(d = {}) {
   const id = ++uid, row = document.createElement("div");
   row.className = "item eq-item";
   row.innerHTML = `
-    <input type="text" id="en-${id}" data-k="nome" placeholder="Ex.: fritadeira elétrica" aria-label="Equipamento">
-    <input type="text" id="eq-${id}" data-k="qtd" inputmode="numeric" value="1" aria-label="Quantidade">
-    <input type="text" id="ek-${id}" data-k="kva" inputmode="decimal" placeholder="kVA" aria-label="Carga em kVA">
-    <select id="ev-${id}" data-k="voltagem" aria-label="Voltagem"><option value="">Volt.</option><option>127 V</option><option>220 V</option></select>
-    <select id="ea-${id}" data-k="amperagem" aria-label="Amperagem"><option value="">Amp.</option><option>10 A</option><option>20 A</option><option>Outra</option></select>
-    <button type="button" class="del" aria-label="Remover equipamento">×</button>`;
+    <div class="row-head"><span class="row-title">Equipamento</span><button type="button" class="del" aria-label="Remover equipamento"><span class="del-x">×</span><span class="del-text">Remover</span></button></div>
+    <label class="cell c-main" for="en-${id}"><span class="cell-label">Equipamento</span><input type="text" id="en-${id}" data-k="nome" placeholder="Ex.: fritadeira elétrica"></label>
+    <label class="cell" for="eq-${id}"><span class="cell-label">Quantidade</span><input type="text" id="eq-${id}" data-k="qtd" inputmode="numeric" value="1"></label>
+    <label class="cell" for="ek-${id}"><span class="cell-label">Carga (kVA)</span><input type="text" id="ek-${id}" data-k="kva" inputmode="decimal" placeholder="Ex.: 2,5"></label>
+    <label class="cell" for="ev-${id}"><span class="cell-label">Voltagem</span><select id="ev-${id}" data-k="voltagem"><option value="">Escolha</option><option>127 V</option><option>220 V</option></select></label>
+    <label class="cell" for="ea-${id}"><span class="cell-label">Amperagem</span><select id="ea-${id}" data-k="amperagem"><option value="">Escolha</option><option>10 A</option><option>20 A</option><option>Outra</option></select></label>`;
   fillRow(row, d); $("#eqList").append(row); return row;
 }
 function fillRow(row, d) { $$("[data-k]", row).forEach(el => { if (d[el.dataset.k] != null) el.value = d[el.dataset.k]; }); }
