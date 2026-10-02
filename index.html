@@ -35,6 +35,7 @@
   --line: #cfd6e0;
   --accent: #003E91;
   --accent-soft: #e9eff8;
+  --track: #c3cfe3;
   --accent-ink: #ffffff;
   --error: #c4283d;
   --error-soft: #fcecee;
@@ -48,7 +49,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 1rem; line-height: 1.5; -webkit-font-smoothing: antialiased; }
 
 /* Progresso */
-.progress { position: fixed; top: 0; left: 0; right: 0; height: calc(4px + env(safe-area-inset-top, 0px)); padding-top: env(safe-area-inset-top, 0px); background: var(--bg); z-index: 5; }
+.progress { position: fixed; top: 0; left: 0; right: 0; height: calc(4px + env(safe-area-inset-top, 0px)); padding-top: env(safe-area-inset-top, 0px); background: linear-gradient(var(--track), var(--track)) bottom / 100% 4px no-repeat, var(--bg); z-index: 5; }
 .progress i { display: block; height: 4px; width: 0; background: var(--accent); transition: width .35s ease; }
 
 .stage { min-height: calc(100% - var(--topbar-h)); display: flex; align-items: center; padding: 3rem 1rem 4.5rem; }
